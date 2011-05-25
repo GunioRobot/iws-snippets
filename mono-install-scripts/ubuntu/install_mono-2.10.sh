@@ -43,17 +43,13 @@ index=0
 while [ "$index" -lt "$count" ]
 do
 	#only download it if you don't already have it. 
-	if [ ! -f "${PACKAGES[$index]}.tar" ]
+	if [ ! -f "${PACKAGES[$index]}.tar.gz" ]
 	then
-		wget "${URLS[@]:$index:1}"
+		wget --no-check-certificate -O "${PACKAGES[$index]}.tar.gz" "${URLS[@]:$index:1}"
 	fi
-	if [ -f "${PACKAGES[$index]}.tar.bz2" ]
+	if [ -f "${PACKAGES[$index]}.tar.gz" ]
 	then
-		bunzip2 -df "${PACKAGES[$index]}.tar.bz2"
-	fi
-	if [ -f "${PACKAGES[$index]}.tar" ]
-	then
-		tar -xvf "${PACKAGES[$index]}.tar"
+		tar -zxvf "${PACKAGES[$index]}.tar.gz"
 	fi
 	
 	let "index = $index + 1"
